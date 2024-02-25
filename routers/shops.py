@@ -38,7 +38,7 @@ async def new_shop_registeration(
         shop_data["last_updated"] = None
         shop_data["owner"] = current_user["id"]
         shop_data["shop_unique_id"] = await generate_unique_uuid()
-        shop_data["deals_under_shop"] = []
+        shop_data["events_under_shop"] = []
         shop_data["shop_status"] = "active"
         inserted_shop = collection.insert_one(shop_data)
         logging.info(
@@ -163,7 +163,7 @@ async def get_all_shops_associated_with_the_current_user(
         collection = await db.make_connection()
         shops = collection.find(
             {"owner": current_user["id"], "shop_status": "active"},
-            {"_id": 0, "owner": 0, "deals_under_shop": 0},
+            {"_id": 0, "owner": 0, "events_under_shop": 0},
         )
         shops_list = list(shops)
         logging.info(f"Shops found: {shops_list}")
@@ -211,7 +211,7 @@ async def get_a_shop_details(
         collection = await db.make_connection()
         shop = collection.find_one(
             {"shop_unique_id": shop_id, "shop_status": "active"},
-            {"_id": 0, "owner": 0, "deals_under_shop": 0},
+            {"_id": 0, "owner": 0, "events_under_shop": 0},
         )
         logging.info(f"Shop found: {shop}")
         if not shop:

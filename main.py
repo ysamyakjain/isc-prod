@@ -5,7 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi import FastAPI, Request, HTTPException, status
 
 from utils import *
-from routers import users, admins, shops, deals, gateways, beacons, users_shop_n_deals
+from routers import event, users, admins, shops, gateways, beacons, users_shop_n_events, super_admin
 
 app = FastAPI()
 
@@ -64,12 +64,16 @@ app.include_router(admins.router)
 #including the routes from routers/shops.py
 app.include_router(shops.router)
 
-#including the routes from routers/deals.py
-app.include_router(deals.router)
+#including the routes from routers/events.py
+app.include_router(event.router)
 
 
 #including the routes from routers/gateways.py
-app.include_router(users_shop_n_deals.router)
+app.include_router(users_shop_n_events.router)
+
+#including the routes from routers/super_admin.py
+app.include_router(super_admin.router)
+
 
 #including the routes from routers/gateways.py
 #app.include_router(gateways.router)
