@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 # create a deal under a shop
-@router.post("/create-deal/{shop_id:str}", tags=["deals"])
+@router.post("/create-deal/{shop_id:str}", tags=["Events"])
 async def create_event(
     shop_id: str,
     deal: RegisterNewDeal,
@@ -91,7 +91,7 @@ async def create_event(
 
 
 # update a deal
-@router.put("/update-deal/{deal_id:str}", tags=["deals"])
+@router.put("/update-deal/{deal_id:str}", tags=["Events"])
 async def update_event(
     deal: UpdateDeal,
     deal_id: str,
@@ -157,7 +157,7 @@ async def update_event(
 
 
 # get all deals
-@router.get("/get-all-deals/{shop_id:str}", tags=["deals"])
+@router.get("/get-all-deals/{shop_id:str}", tags=["Events"])
 async def get_all_events(
     shop_id: str, current_user: dict = Depends(get_current_admin_user)
 ) -> JSONResponse:
@@ -216,7 +216,7 @@ async def get_all_events(
 
 
 # get a deal
-@router.get("/get-deal/{deal_id:str}", tags=["deals"])
+@router.get("/get-deal/{deal_id:str}", tags=["Events"])
 async def get_a_event(
     deal_id: str,
     current_user: dict = Depends(get_current_admin_user),
@@ -284,7 +284,7 @@ async def get_a_event(
 
 
 # delete a deal
-@router.delete("/delete-deal/{deal_id:str}", tags=["deals"])
+@router.delete("/delete-deal/{deal_id:str}", tags=["Events"])
 async def delete_a_event(
     deal_id: str,
     current_user: dict = Depends(get_current_admin_user),
