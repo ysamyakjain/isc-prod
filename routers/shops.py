@@ -163,7 +163,7 @@ async def get_all_shops_associated_with_the_current_user(
         collection = await db.make_connection()
         shops = collection.find(
             {"owner": current_user["id"], "shop_status": "active"},
-            {"_id": 0, "owner": 0, "events_under_shop": 0},
+            {"_id": 0},
         )
         shops_list = list(shops)
         logging.info(f"Shops found: {shops_list}")
@@ -211,7 +211,7 @@ async def get_a_shop_details(
         collection = await db.make_connection()
         shop = collection.find_one(
             {"shop_unique_id": shop_id, "shop_status": "active"},
-            {"_id": 0, "owner": 0, "events_under_shop": 0},
+            {"_id": 0},
         )
         logging.info(f"Shop found: {shop}")
         if not shop:

@@ -9,6 +9,7 @@ class RegisterNewEvent(BaseModel):
     start_date: str
     end_date: str
     categories: str
+    description: str
 
 class UpdateEvent(BaseModel):
     event_name: Optional[str] = None
@@ -17,6 +18,7 @@ class UpdateEvent(BaseModel):
     start_date: Optional[str] = None
     end_date: Optional[str] = None
     categories: Optional[str] = None
+    description: Optional[str] = None
     class Config:
         extra = 'forbid'
 

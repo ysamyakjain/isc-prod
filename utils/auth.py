@@ -45,6 +45,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     decoded_payload = decode_jwt_token(token)
     return decoded_payload
 
+
 # Dependency to get admin user from JWT token
 def get_current_admin_user(current_user: dict = Depends(get_current_user)):
     if current_user.get("role") not in  ["admin", "superadmin"]:
