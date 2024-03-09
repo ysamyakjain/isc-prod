@@ -284,3 +284,72 @@ async def get_a_shop_details_for_enduser(shop_id: str) -> JSONResponse:
                 "response": "There is some issue with our services, please try again later",
             },
         )
+
+
+# get a event
+@router.get("/get-event-details/{event_id:str}", tags=["Events"])
+async def get_a_event(
+    event_id: str,
+) -> JSONResponse:
+    try:
+        db = Database("isc", "events")
+        collection = await db.make_connection()
+    except Exception as e:
+        logging.error(f"Error connecting to MongoDB: {e}")
+        return JSONResponse(
+            status_code=500,
+            media_type="application/json",
+            content={
+                "status": False,
+                "message": "Internal server error",
+                "response": "There is some issue with our services, please try again later",
+            },
+        )
+
+    try:
+        # Get one event and check if it is active and end_date has not been surpassed
+        event = collection.find_one(
+            {"event_unique_id": (event_id), "is_active": True}, projection={"_id": 0}
+        )
+        if (
+            not event
+            or datetime.strptime(event["end_date"], "%Y-%m-%d %H:%M:%S") < datetime.now()
+        ):
+            logging.info(
+                f"event {event_id} not found or not active or end_date surpassed"
+            )
+            return JSONResponse(
+                status_code=404,
+                media_type="application/json",
+                content={
+                    "status": False,
+                    "message": "No events found",
+                    "response": "event not found or not active or end_date surpassed",
+                },
+            )
+
+        logging.info(f"event found: {event}")
+        await db.close_connection()
+
+        return JSONResponse(
+            status_code=200,
+            media_type="application/json",
+            content={
+                "status": True,
+                "message": "event found",
+                "response": event,
+            },
+        )
+    except Exception as e:
+        logging.error(f"Error getting event: {e}")
+        return JSONResponse(
+            status_code=500,
+            media_type="application/json",
+            content={
+                "status": False,
+                "message": "Internal server error",
+                "response": "There is some issue with our services, please try again later",
+            },
+        )
+
+
